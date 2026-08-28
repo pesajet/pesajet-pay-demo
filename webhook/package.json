@@ -1,0 +1,36 @@
+{
+  "name": "pesajet-webhook-demo",
+  "version": "1.0.0",
+  "description": "Official PesaJet Webhook Integration Reference and Demo Server",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "node --watch --env-file=.env index.ts",
+    "start": "node --env-file=.env index.ts",
+    "test": "node src/test.ts",
+    "build": "tsc",
+    "simulate": "node --env-file=.env src/simulate.ts",
+    "simulate:completed": "node --env-file=.env src/simulate.ts completed",
+    "simulate:failed": "node --env-file=.env src/simulate.ts failed",
+    "simulate:expired": "node --env-file=.env src/simulate.ts expired",
+    "simulate:test": "node --env-file=.env src/simulate.ts test",
+    "simulate:invalid": "node --env-file=.env src/simulate.ts invalid"
+  },
+  "keywords": [
+    "pesajet",
+    "webhooks",
+    "payments",
+    "mobile-money",
+    "mtn-momo",
+    "airtel-money",
+    "fintech"
+  ],
+  "author": "PesaJet Team",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.4.0",
+    "express": "^5.2.1",
+    "typescript": "^7.0.2"
+  }
+}
