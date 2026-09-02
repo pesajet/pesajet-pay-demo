@@ -1,0 +1,48 @@
+{
+  "name": "@pesajet/sdk",
+  "version": "1.0.0",
+  "description": "Official PesaJet Payments & Webhooks SDK for Node.js and TypeScript",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "tsc",
+    "test": "tsc && node test.ts"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pesajet/pesajet-pay-demo.git",
+    "directory": "sdks/nodejs"
+  },
+  "homepage": "https://pay.pesajet.com",
+  "keywords": [
+    "pesajet",
+    "mobile-money",
+    "mtn-momo",
+    "airtel-money",
+    "uganda",
+    "payments",
+    "fintech",
+    "sdk"
+  ],
+  "author": "PesaJet Developer Experience Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
+  }
+}
