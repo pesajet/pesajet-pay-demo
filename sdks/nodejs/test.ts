@@ -66,12 +66,28 @@ async function runTests() {
     "Identifies MTN numbers (078...)",
   );
   assert(
+    pesajet.utils.detectProvider("0791234567") === "mtn",
+    "Identifies MTN numbers (079...)",
+  );
+  assert(
+    pesajet.utils.detectProvider("+256791234567") === "mtn",
+    "Identifies MTN numbers (+25679...)",
+  );
+  assert(
     pesajet.utils.detectProvider("+256701234567") === "airtel",
     "Identifies Airtel numbers (070...)",
   );
   assert(
     pesajet.utils.detectProvider("0751234567") === "airtel",
     "Identifies Airtel numbers (075...)",
+  );
+  assert(
+    pesajet.utils.detectProvider("0731234567") === null,
+    "Returns null for 073... because it cuts across MTN & Airtel (user must specify provider)",
+  );
+  assert(
+    pesajet.utils.detectProvider("+256731234567") === null,
+    "Returns null for +25673... because it cuts across MTN & Airtel",
   );
   assert(
     pesajet.utils.detectProvider("+254712345678") === null,

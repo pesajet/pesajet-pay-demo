@@ -3,9 +3,9 @@ import express, {
   type Response,
   type NextFunction,
 } from "express";
-import { verifyWebhookSignature } from "./verify.ts";
-import { processWebhookEvent } from "./handlers.ts";
-import type { PesaJetWebhookPayload } from "./types.ts";
+import { verifyWebhookSignature } from "./verify";
+import { processWebhookEvent } from "./handlers";
+import type { PesaJetWebhookPayload } from "./types";
 
 export function createServer() {
   const app = express();

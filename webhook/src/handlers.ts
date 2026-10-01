@@ -1,4 +1,4 @@
-import type { PesaJetWebhookPayload } from "./types.ts";
+import type { PesaJetWebhookPayload } from "./types";
 
 // In-memory idempotency store to prevent duplicate processing if PesaJet retries a delivery.
 // In production, replace this with your database or Redis (e.g. redis.set(`webhook:${txnId}`, '1', 'EX', 86400, 'NX')).

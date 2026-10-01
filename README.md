@@ -13,7 +13,6 @@ This repository provides code samples, integration starter kits, and reference i
 | **[Official SDKs (`sdks/`)](./sdks)**                  | Official client libraries for Node.js (`@pesajet/sdk`), Python (`pesajet` on PyPI), PHP, and Go.                                                             | 🟢 **Active Release** |
 | **[Webhook Reference Server (`webhook/`)](./webhook)** | Complete reference server for receiving, handling, and cryptographically verifying PesaJet HMAC-SHA256 webhook notifications across MTN MoMo & Airtel Money. | 🟢 **Active Release** |
 
-
 ---
 
 ## 🌐 The PesaJet Ecosystem

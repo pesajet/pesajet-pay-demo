@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PesaJet Payments Integration Reference & Interactive Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "sans-serif"],
+              mono: ['"JetBrains Mono"', "monospace"],
+            },
+            colors: {
+              primary: {
+                50: "#eef2ff",
+                100: "#e0e7ff",
+                500: "#6366f1",
+                600: "#4f46e5",
+                700: "#4338ca",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased">
+    <!-- Navbar -->
+    <header
+      class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <img
+            src="/logo.png"
+            alt="PesaJet Pay"
+            class="h-9 w-auto object-contain rounded-xl shadow-md"
+          />
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-base tracking-tight text-white"
+                >PesaJet Pay</span
+              >
+              <span
+                class="text-xs font-bold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20"
+                >PAYMENTS DEMO</span
+              >
+            </div>
+            <p class="text-[11px] text-slate-400">
+              Mobile Money API Integration Reference & SDK
+            </p>
+          </div>
+        </div>
+
+        <!-- Live Connection & API Key Bar -->
+        <div class="flex items-center gap-3">
+          <div
+            class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-xs font-mono text-slate-300"
+          >
+            <span
+              class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+            ></span>
+            <span id="nav-base-url">http://localhost:3000/api/v1</span>
+          </div>
+          <button
+            id="open-config-btn"
+            class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition flex items-center gap-1.5"
+          >
+            <i data-lucide="key" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <span id="nav-api-key">pk_...</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <!-- Hero / Intro Banner -->
+      <div
+        class="relative overflow-hidden rounded-3xl bg-slate-900 p-6 sm:p-8 border border-slate-800 shadow-xl"
+      >
+        <div class="relative z-10 max-w-3xl space-y-3">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold"
+          >
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+            Production Ready SDK & Reference Implementation
+          </div>
+          <h1
+            class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight"
+          >
+            Integrate Ugandan Mobile Money Payments in Minutes
+          </h1>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Accept payments directly from <strong>MTN Mobile Money</strong> and
+            <strong>Airtel Money</strong> subscribers. This interactive
+            reference demonstrates collection USSD pushes, fee estimations,
+            real-time status polling, and webhook verification.
+          </p>
+          <div class="flex flex-wrap gap-3 pt-2 text-xs">
+            <a
+              href="#playground"
+              class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition shadow-lg shadow-indigo-600/30 flex items-center gap-2"
+            >
+              <i data-lucide="terminal" class="w-4 h-4"></i>
+              Interactive Code Playground
+            </a>
+            <a
+              href="#storefront"
+              class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700 transition flex items-center gap-2"
+            >
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+              Try Storefront Checkout
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div
+        class="flex flex-wrap gap-2 border-b border-slate-800 pb-3"
+        id="demo-tabs"
+      >
+        <button
+          class="tab-btn active flex items-center gap-2"
+          data-tab="tab-playground"
+        >
+          <i data-lucide="code-2" class="w-4 h-4"></i>
+          <span>Developer Playground & Code Generator</span>
+        </button>
+        <button
+          class="tab-btn flex items-center gap-2"
+          data-tab="tab-storefront"
+        >
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          <span>Storefront Checkout Simulator</span>
+        </button>
+        <button class="tab-btn flex items-center gap-2" data-tab="tab-disburse">
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          <span>Payouts & Disbursements</span>
+        </button>
+        <button
+          class="tab-btn flex items-center gap-2"
+          data-tab="tab-calculator"
+        >
+          <i data-lucide="calculator" class="w-4 h-4"></i>
+          <span>Fee Tier Calculator</span>
+        </button>
+        <button class="tab-btn flex items-center gap-2" data-tab="tab-history">
+          <i data-lucide="history" class="w-4 h-4"></i>
+          <span>Live Transactions Ledger</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: CODE PLAYGROUND & GENERATOR -->
+      <section id="tab-playground" class="tab-content active space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <!-- Left: Interactive Request Builder Form -->
+          <div
+            class="lg:col-span-5 bg-slate-900/90 rounded-3xl p-6 border border-slate-800 space-y-5 shadow-xl"
+          >
+            <div
+              class="flex items-center justify-between border-b border-slate-800 pb-3"
+            >
+              <h2
+                class="text-base font-bold text-white flex items-center gap-2"
+              >
+                <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i>
+                Request Parameters
+              </h2>
+              <span
+                class="text-xs text-indigo-400 font-mono font-bold bg-indigo-950/60 px-2 py-0.5 rounded-lg border border-indigo-800/40"
+              >
+                POST /api/v1/payments
+              </span>
+            </div>
+
+            <div class="space-y-4 text-xs">
+              <!-- Amount -->
+              <div>
+                <label class="block font-bold text-slate-300 mb-1.5"
+                  >Transaction Amount (UGX)</label
+                >
+                <div class="relative">
+                  <input
+                    type="number"
+                    id="pg-amount"
+                    value="15000"
+                    min="500"
+                    step="500"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm focus:border-indigo-500 outline-none"
+                  />
+                  <div
+                    class="absolute right-3 top-2.5 text-xs text-slate-500 font-bold"
+                  >
+                    UGX
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone Number & Auto Provider -->
+              <div>
+                <label class="block font-bold text-slate-300 mb-1.5"
+                  >Customer Mobile Number</label
+                >
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="pg-phone"
+                    value="+256771234567"
+                    placeholder="+256770000000"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm focus:border-indigo-500 outline-none"
+                  />
+                  <span
+                    id="pg-detected-badge"
+                    class="absolute right-2.5 top-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1"
+                  >
+                    <i data-lucide="smartphone" class="w-3 h-3"></i>
+                    <span>MTN MOMO</span>
+                  </span>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-1">
+                  E.164 format. E.g. +25677... (MTN) or +25670... (Airtel)
+                </p>
+              </div>
+
+              <!-- Provider Selector -->
+              <div>
+                <label class="block font-bold text-slate-300 mb-1.5"
+                  >Telecom Gateway</label
+                >
+                <div class="grid grid-cols-2 gap-2">
+                  <label
+                    class="provider-radio flex items-center justify-between p-2.5 rounded-xl border border-slate-700 bg-slate-950 cursor-pointer transition hover:border-slate-600"
+                  >
+                    <div class="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="pg-provider"
+                        value="mtn"
+                        checked
+                        class="accent-amber-500"
+                      />
+                      <span class="font-bold text-amber-400">MTN MoMo</span>
+                    </div>
+                    <img
+                      src="/mtn.png"
+                      alt="MTN"
+                      class="w-5 h-5 rounded-md object-contain"
+                    />
+                  </label>
+                  <label
+                    class="provider-radio flex items-center justify-between p-2.5 rounded-xl border border-slate-700 bg-slate-950 cursor-pointer transition hover:border-slate-600"
+                  >
+                    <div class="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="pg-provider"
+                        value="airtel"
+                        class="accent-rose-500"
+                      />
+                      <span class="font-bold text-rose-400">Airtel Money</span>
+                    </div>
+                    <img
+                      src="/airtel.png"
+                      alt="Airtel"
+                      class="w-5 h-5 rounded-md object-contain"
+                    />
+                  </label>
+                </div>
+              </div>
+
+              <!-- Reference & Description -->
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-bold text-slate-300 mb-1.5"
+                    >Order Reference</label
+                  >
+                  <input
+                    type="text"
+                    id="pg-reference"
+                    value="ORD-9982"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-xs focus:border-indigo-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label class="block font-bold text-slate-300 mb-1.5"
+                    >Description</label
+                  >
+                  <input
+                    type="text"
+                    id="pg-desc"
+                    value="T-Shirt Order"
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white text-xs focus:border-indigo-500 outline-none"
+                  />
+                </div>
+              </div>
+
+              <!-- Action Button -->
+              <button
+                id="pg-execute-btn"
+                class="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-sm shadow-lg shadow-indigo-600/20 transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <i data-lucide="play" class="w-4 h-4"></i>
+                <span>Execute Live Payment Request</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Multi-Language Code Snippet & Live Response -->
+          <div class="lg:col-span-7 space-y-4">
+            <!-- Code Preview Box -->
+            <div
+              class="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 shadow-xl space-y-3"
+            >
+              <div
+                class="flex items-center justify-between border-b border-slate-800 pb-2"
+              >
+                <!-- Language Tabs -->
+                <div class="flex gap-1.5" id="code-lang-tabs">
+                  <button class="code-tab active" data-lang="node-sdk">
+                    Node.js (SDK)
+                  </button>
+                  <button class="code-tab" data-lang="node-fetch">
+                    Node.js (Fetch)
+                  </button>
+                  <button class="code-tab" data-lang="python">Python</button>
+                  <button class="code-tab" data-lang="php">PHP</button>
+                  <button class="code-tab" data-lang="curl">cURL</button>
+                </div>
+
+                <!-- Copy Code Button -->
+                <button
+                  id="copy-code-btn"
+                  class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-bold text-slate-300 border border-slate-700 transition flex items-center gap-1.5 cursor-pointer"
+                >
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>Copy Snippet</span>
+                </button>
+              </div>
+
+              <pre
+                class="p-4 rounded-2xl bg-slate-950 text-slate-200 font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800/80 max-h-72"
+              ><code id="code-snippet-display">// Loading code snippet...</code></pre>
+            </div>
+
+            <!-- Live API Response Inspector -->
+            <div
+              class="bg-slate-900/90 rounded-3xl p-5 border border-slate-800 shadow-xl space-y-3"
+            >
+              <div
+                class="flex items-center justify-between border-b border-slate-800 pb-2"
+              >
+                <div class="flex items-center gap-2">
+                  <i
+                    data-lucide="terminal"
+                    class="w-4 h-4 text-emerald-400"
+                  ></i>
+                  <span class="text-xs font-bold text-white"
+                    >Live Execution Terminal</span
+                  >
+                  <span
+                    id="response-status-badge"
+                    class="hidden px-2 py-0.5 rounded-full text-[10px] font-bold"
+                  ></span>
+                </div>
+                <span
+                  id="response-duration"
+                  class="text-xs text-slate-500 font-mono"
+                ></span>
+              </div>
+
+              <div
+                id="live-response-container"
+                class="p-4 rounded-2xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto max-h-48 border border-slate-800/80"
+              >
+                <span class="text-slate-600"
+                  >// Click "Execute Live Payment Request" to inspect actual API
+                  response payload...</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: STOREFRONT CHECKOUT SIMULATOR -->
+      <section id="tab-storefront" class="tab-content space-y-6">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
+          <!-- Store Order Summary Card -->
+          <div
+            class="md:col-span-5 bg-slate-900/90 rounded-3xl p-6 border border-slate-800 space-y-5 shadow-xl"
+          >
+            <div
+              class="border-b border-slate-800 pb-3 flex items-center justify-between"
+            >
+              <div>
+                <h3
+                  class="text-base font-bold text-white flex items-center gap-2"
+                >
+                  <i
+                    data-lucide="shopping-cart"
+                    class="w-4 h-4 text-indigo-400"
+                  ></i>
+                  Your Cart
+                </h3>
+                <p class="text-xs text-slate-400">
+                  PesaJet Official Developer Merch
+                </p>
+              </div>
+            </div>
+
+            <!-- Items -->
+            <div class="space-y-3 text-xs">
+              <div
+                class="flex items-center justify-between p-3 rounded-2xl bg-slate-950 border border-slate-800"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold"
+                  >
+                    <i data-lucide="shirt" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white">PesaJet Dev Hoodie</h4>
+                    <p class="text-slate-500">Black / Size L</p>
+                  </div>
+                </div>
+                <span class="font-mono font-bold text-white">UGX 65,000</span>
+              </div>
+
+              <div
+                class="flex items-center justify-between p-3 rounded-2xl bg-slate-950 border border-slate-800"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-10 h-10 rounded-xl bg-purple-600/20 text-purple-400 flex items-center justify-center font-bold"
+                  >
+                    <i data-lucide="coffee" class="w-5 h-5"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-white">Developer Ceramic Mug</h4>
+                    <p class="text-slate-500">Matte Purple</p>
+                  </div>
+                </div>
+                <span class="font-mono font-bold text-white">UGX 25,000</span>
+              </div>
+            </div>
+
+            <!-- Total Calculation -->
+            <div class="border-t border-slate-800 pt-3 space-y-1.5 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Subtotal</span>
+                <span class="font-mono">UGX 90,000</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Delivery (Kampala)</span>
+                <span class="font-mono">UGX 5,000</span>
+              </div>
+              <div
+                class="flex justify-between text-base font-extrabold text-white pt-2 border-t border-slate-800/80"
+              >
+                <span>Total Payable</span>
+                <span class="font-mono text-indigo-400">UGX 95,000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checkout Form & Live USSD Status Gauge -->
+          <div
+            class="md:col-span-7 bg-slate-900/90 rounded-3xl p-6 border border-slate-800 space-y-5 shadow-xl"
+          >
+            <div class="border-b border-slate-800 pb-3">
+              <h3
+                class="text-base font-bold text-white flex items-center gap-2"
+              >
+                <i data-lucide="smartphone" class="w-4 h-4 text-indigo-400"></i>
+                Mobile Money Instant Checkout
+              </h3>
+              <p class="text-xs text-slate-400">
+                A payment prompt will be pushed directly to the handset
+              </p>
+            </div>
+
+            <form id="storefront-form" class="space-y-4 text-xs">
+              <div>
+                <label class="block font-bold text-slate-300 mb-1"
+                  >Customer Full Name</label
+                >
+                <input
+                  type="text"
+                  id="sf-name"
+                  value="Sarah Namubiru"
+                  required
+                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white outline-none"
+                />
+              </div>
+
+              <div>
+                <label class="block font-bold text-slate-300 mb-1"
+                  >Mobile Money Number</label
+                >
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="sf-phone"
+                    value="+256771234567"
+                    required
+                    class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm outline-none"
+                  />
+                  <span
+                    id="sf-provider-badge"
+                    class="absolute right-2.5 top-2 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1"
+                  >
+                    <i data-lucide="smartphone" class="w-3 h-3"></i>
+                    <span>MTN MOMO</span>
+                  </span>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                id="sf-pay-btn"
+                class="w-full py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-sm transition shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <i data-lucide="credit-card" class="w-4 h-4"></i>
+                <span>Pay UGX 95,000 with Mobile Money</span>
+              </button>
+            </form>
+
+            <!-- Interactive Live Polling Tracker Box -->
+            <div
+              id="sf-status-tracker"
+              class="hidden p-5 rounded-2xl bg-slate-950 border border-indigo-500/30 space-y-4"
+            >
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div
+                    id="sf-status-spinner"
+                    class="w-4 h-4 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin"
+                  ></div>
+                  <span id="sf-status-text" class="text-xs font-bold text-white"
+                    >Awaiting customer PIN entry...</span
+                  >
+                </div>
+                <span
+                  id="sf-status-badge"
+                  class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30"
+                >
+                  PENDING
+                </span>
+              </div>
+
+              <!-- Step Flow Gauge -->
+              <div
+                class="grid grid-cols-3 gap-2 text-center text-[10px] font-bold"
+              >
+                <div
+                  id="step-1"
+                  class="p-2 rounded-xl bg-indigo-950/80 text-indigo-300 border border-indigo-800/60"
+                >
+                  1. USSD Push Sent
+                </div>
+                <div
+                  id="step-2"
+                  class="p-2 rounded-xl bg-slate-900 text-slate-500 border border-slate-800"
+                >
+                  2. User Authorizing
+                </div>
+                <div
+                  id="step-3"
+                  class="p-2 rounded-xl bg-slate-900 text-slate-500 border border-slate-800"
+                >
+                  3. Order Fulfilled
+                </div>
+              </div>
+
+              <div
+                class="text-[11px] text-slate-400 font-mono pt-1 flex justify-between"
+              >
+                <span
+                  >Txn ID:
+                  <span id="sf-txn-id" class="text-slate-200">...</span></span
+                >
+                <span
+                  >Attempts:
+                  <span id="sf-poll-count" class="text-slate-200">0</span></span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: DISBURSEMENTS & PAYOUTS -->
+      <section id="tab-disburse" class="tab-content space-y-6">
+        <div
+          class="max-w-3xl mx-auto bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6 shadow-xl"
+        >
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i data-lucide="send" class="w-4 h-4 text-emerald-400"></i>
+              Send Payout / Disbursement
+            </h2>
+            <p class="text-xs text-slate-400">
+              Transfer funds from your PesaJet merchant wallet directly to any
+              recipient's mobile money phone number.
+            </p>
+          </div>
+
+          <form id="disburse-form" class="space-y-4 text-xs">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-bold text-slate-300 mb-1"
+                  >Payout Amount (UGX)</label
+                >
+                <input
+                  type="number"
+                  id="db-amount"
+                  value="50000"
+                  min="1000"
+                  step="1000"
+                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm outline-none"
+                />
+              </div>
+              <div>
+                <label class="block font-bold text-slate-300 mb-1"
+                  >Recipient Mobile Number</label
+                >
+                <input
+                  type="text"
+                  id="db-phone"
+                  value="+256771234567"
+                  required
+                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm outline-none"
+                />
+              </div>
+            </div>
+
+            <div
+              class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2"
+            >
+              <div class="flex justify-between text-slate-400">
+                <span>Disbursement Fee:</span>
+                <span id="db-fee" class="font-mono text-slate-200"
+                  >Calculating...</span
+                >
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Total Wallet Deduction:</span>
+                <span id="db-total-cost" class="font-mono text-slate-200"
+                  >Calculating...</span
+                >
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              id="db-submit-btn"
+              class="w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <i data-lucide="send" class="w-4 h-4"></i>
+              <span>Send UGX Payout Now</span>
+            </button>
+          </form>
+
+          <div
+            id="db-result-box"
+            class="hidden p-4 rounded-2xl bg-slate-950 border border-slate-800 font-mono text-xs overflow-x-auto text-emerald-400"
+          ></div>
+        </div>
+      </section>
+
+      <!-- TAB 4: FEE TIER CALCULATOR -->
+      <section id="tab-calculator" class="tab-content space-y-6">
+        <div
+          class="max-w-3xl mx-auto bg-slate-900/90 rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6 shadow-xl"
+        >
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+              <i data-lucide="calculator" class="w-4 h-4 text-indigo-400"></i>
+              Real-Time Fee & Net Amount Breakdown
+            </h2>
+            <p class="text-xs text-slate-400">
+              Calculate platform fees, telecom carrier tiers, and net merchant
+              balances before initiating transactions.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div>
+              <label class="block font-bold text-slate-300 mb-1"
+                >Amount (UGX)</label
+              >
+              <input
+                type="number"
+                id="calc-amount"
+                value="100000"
+                min="500"
+                step="1000"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white font-mono text-sm outline-none"
+              />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-300 mb-1"
+                >Transaction Type</label
+              >
+              <select
+                id="calc-type"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white outline-none"
+              >
+                <option value="COLLECTION">Collection (Receive)</option>
+                <option value="DISBURSEMENT">Disbursement (Payout)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-300 mb-1"
+                >Provider</label
+              >
+              <select
+                id="calc-provider"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2.5 text-white outline-none"
+              >
+                <option value="mtn">MTN Mobile Money</option>
+                <option value="airtel">Airtel Money</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fee Results Table -->
+          <div
+            class="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3 text-xs"
+          >
+            <div
+              class="flex justify-between py-1 border-b border-slate-800 text-slate-400"
+            >
+              <span>Base Transaction Amount</span>
+              <span id="res-calc-amount" class="font-mono text-white font-bold"
+                >UGX 100,000</span
+              >
+            </div>
+            <div
+              class="flex justify-between py-1 border-b border-slate-800 text-slate-400"
+            >
+              <span>Platform Fee (PesaJet)</span>
+              <span
+                id="res-calc-platform-fee"
+                class="font-mono text-indigo-400 font-bold"
+                >UGX 0</span
+              >
+            </div>
+            <div
+              class="flex justify-between py-1 border-b border-slate-800 text-slate-400"
+            >
+              <span>Carrier / Provider Fee</span>
+              <span
+                id="res-calc-provider-fee"
+                class="font-mono text-slate-300 font-bold"
+                >UGX 0</span
+              >
+            </div>
+            <div
+              class="flex justify-between py-2 text-sm font-extrabold text-white"
+            >
+              <span id="res-calc-net-label">Net Credited to Merchant:</span>
+              <span id="res-calc-net-amount" class="font-mono text-emerald-400"
+                >UGX 100,000</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: LIVE TRANSACTIONS LEDGER -->
+      <section id="tab-history" class="tab-content space-y-4">
+        <div
+          class="bg-slate-900/90 rounded-3xl p-6 border border-slate-800 space-y-4 shadow-xl"
+        >
+          <div
+            class="flex items-center justify-between border-b border-slate-800 pb-3"
+          >
+            <div>
+              <h2
+                class="text-base font-bold text-white flex items-center gap-2"
+              >
+                <i data-lucide="history" class="w-4 h-4 text-indigo-400"></i>
+                Live Transactions Feed
+              </h2>
+              <p class="text-xs text-slate-400">
+                Recent transactions recorded for this merchant API key
+              </p>
+            </div>
+            <button
+              id="refresh-history-btn"
+              class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Refresh</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr
+                  class="border-b border-slate-800 text-slate-400 uppercase text-[10px] font-bold"
+                >
+                  <th class="pb-2">Transaction ID</th>
+                  <th class="pb-2">Status</th>
+                  <th class="pb-2">Type</th>
+                  <th class="pb-2">Amount</th>
+                  <th class="pb-2">Provider</th>
+                  <th class="pb-2">Phone</th>
+                  <th class="pb-2">Reference</th>
+                  <th class="pb-2">Date</th>
+                </tr>
+              </thead>
+              <tbody
+                id="history-table-body"
+                class="divide-y divide-slate-800/60 font-mono text-slate-300"
+              >
+                <tr>
+                  <td
+                    colspan="8"
+                    class="py-4 text-center text-slate-500 font-sans"
+                  >
+                    Click "Refresh" to load transaction history...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal: Edit API Key Config -->
+    <div
+      id="config-modal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+    >
+      <div
+        class="bg-slate-900 rounded-3xl border border-slate-800 p-6 max-w-md w-full space-y-4 shadow-2xl"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-800 pb-3"
+        >
+          <h3 class="text-sm font-bold text-white flex items-center gap-2">
+            <i data-lucide="key" class="w-4 h-4 text-amber-400"></i>
+            Configure Merchant API Credentials
+          </h3>
+          <button
+            id="close-config-btn"
+            class="text-slate-400 hover:text-white text-lg font-bold cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-slate-300 mb-1"
+              >PesaJet API Base URL</label
+            >
+            <input
+              type="text"
+              id="cfg-base-url"
+              value="http://localhost:3000/api/v1"
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 font-mono text-slate-200 outline-none"
+            />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-300 mb-1"
+              >Merchant API Key (X-API-Key)</label
+            >
+            <input
+              type="text"
+              id="cfg-api-key"
+              placeholder="pk_live_..."
+              class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 font-mono text-slate-200 outline-none"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-800">
+          <button
+            id="save-config-btn"
+            class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-xs text-white transition cursor-pointer"
+          >
+            Save Configuration
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

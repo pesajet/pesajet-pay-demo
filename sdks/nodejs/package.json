@@ -1,23 +1,24 @@
 {
   "name": "@pesajet/sdk",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Official PesaJet Payments & Webhooks SDK for Node.js and TypeScript",
   "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "default": "./dist/esm/index.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "tsc",
+    "build": "tsc -p tsconfig.esm.json && tsc -p tsconfig.cjs.json && node -e \"require('fs').writeFileSync('dist/cjs/package.json', '{\\\"type\\\":\\\"commonjs\\\"}\\n')\"",
+    "prepublishOnly": "npm run build",
     "test": "tsc && node test.ts"
   },
   "publishConfig": {
@@ -31,6 +32,8 @@
   "homepage": "https://pay.pesajet.com",
   "keywords": [
     "pesajet",
+    "emoments",
+    "e-moments",
     "mobile-money",
     "mtn-momo",
     "airtel-money",

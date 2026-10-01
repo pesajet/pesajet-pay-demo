@@ -1,5 +1,5 @@
 import crypto from "node:crypto";
-import type { SignatureVerificationResult } from "./types.ts";
+import type { SignatureVerificationResult } from "./types";
 
 /**
  * Computes the HMAC-SHA256 signature for a given payload and signing secret.

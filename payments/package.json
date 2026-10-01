@@ -1,0 +1,38 @@
+{
+  "name": "pesajet-payments-demo",
+  "version": "1.0.0",
+  "description": "Official PesaJet Payments Integration Reference, SDK, and Interactive Demo App",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "node --watch --env-file=.env index.ts",
+    "start": "node --env-file=.env index.ts",
+    "test": "node --env-file=.env src/test.ts",
+    "build": "tsc",
+    "collect:mtn": "node --env-file=.env src/cli/collect.ts mtn",
+    "collect:airtel": "node --env-file=.env src/cli/collect.ts airtel",
+    "disburse": "node --env-file=.env src/cli/disburse.ts",
+    "status": "node --env-file=.env src/cli/status.ts",
+    "preview": "node --env-file=.env src/cli/preview.ts"
+  },
+  "keywords": [
+    "pesajet",
+    "payments",
+    "sdk",
+    "mobile-money",
+    "mtn-momo",
+    "airtel-money",
+    "uganda",
+    "fintech",
+    "collections",
+    "disbursements"
+  ],
+  "author": "PesaJet Developer Experience Team",
+  "license": "MIT",
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.4.0",
+    "express": "^5.2.1",
+    "typescript": "^7.0.2"
+  }
+}

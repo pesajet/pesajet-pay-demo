@@ -1,0 +1,22 @@
+{
+  "name": "pesajet/pesajet-php",
+  "description": "Official PesaJet Payments & Webhooks SDK for PHP",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "PesaJet Developer Experience Team",
+      "email": "dev@pesajet.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "ext-json": "*",
+    "ext-curl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "PesaJet\\": "src/"
+    }
+  }
+}

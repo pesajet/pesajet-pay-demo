@@ -1,5 +1,5 @@
-import { generateWebhookSignature } from "./verify.ts";
-import type { PesaJetWebhookPayload, WebhookEvent } from "./types.ts";
+import { generateWebhookSignature } from "./verify";
+import type { PesaJetWebhookPayload, WebhookEvent } from "./types";
 
 const PORT = process.env.PORT || "3000";
 const SECRET =

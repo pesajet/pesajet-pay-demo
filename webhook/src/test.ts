@@ -1,7 +1,7 @@
 import assert from "node:assert";
-import { generateWebhookSignature, verifyWebhookSignature } from "./verify.ts";
-import { processWebhookEvent } from "./handlers.ts";
-import type { PesaJetWebhookPayload } from "./types.ts";
+import { generateWebhookSignature, verifyWebhookSignature } from "./verify";
+import { processWebhookEvent } from "./handlers";
+import type { PesaJetWebhookPayload } from "./types";
 
 const SECRET = "whsec_test_secret_key_1234567890abcdef";
 
